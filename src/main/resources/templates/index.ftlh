@@ -52,13 +52,46 @@
                 </td>
                 <td>${person.birthDate?date}</td>
                 <td>
-                    <a href="/${person?index}" class="btn btn-secondary"><i class="bi bi-person-fill-gear" role="img" aria-label="Edit"></i></a>
-                    <button type="submit" class="btn btn-secondary"><i class="bi bi-person-x-fill" role="img" aria-label="Delete"></i></button>
+                    [#if !query??]
+                        <a href="/${person?index}" class="btn btn-secondary"><i class="bi bi-person-fill-gear" role="img" aria-label="Edit"></i></a>
+                        <form method="post" action="/delete" class="d-inline">
+                            <input type="hidden" name="id" value="${person?index}"/>
+                            <button type="submit" class="btn btn-secondary"><i class="bi bi-person-x-fill" role="img" aria-label="Delete"></i></button>
+                        </form>
+                    [/#if]
                 </td>
             </tr>
         [/#list]
         </tbody>
     </table>
+
+    <h2 class="mt-5 mb-3">Append new person</h2>
+    <form action="/" method="post" class="row g-3">
+        <div class="col-md-3">
+            <label for="given-name" class="form-label">Given name</label>
+            <input id="given-name" name="givenName" class="form-control" type="text" required/>
+        </div>
+        <div class="col-md-4">
+            <label for="last-name" class="form-label">Last name</label>
+            <input id="last-name" name="lastName" class="form-control" type="text" required/>
+        </div>
+        <div class="col-md-2">
+            <label for="birth-date" class="form-label">Birth date</label>
+            <input id="birth-date" name="birthDate" class="form-control" type="date" required/>
+        </div>
+        <div class="col-md-2">
+            <label for="gender" class="form-label">Gender</label>
+            <select id="gender" name="gender" class="form-select" required>
+                [#list gender as item]
+                    <option value="${item.name()}">${item.title}</option>
+                [/#list]
+            </select>
+        </div>
+        <div class="col-md-1 align-self-end">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus-fill" role="img" aria-label="Append"></i></button>
+        </div>
+    </form>
+
 </div>
 </body>
 </html>
